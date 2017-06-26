@@ -41,6 +41,10 @@ app.controller("ctrlExpenses", ["$rootScope", "$scope", "config", "restalchemy",
 		}
 	};
 
+	$scope.changeAmount = function () {
+        $scope.newExpense.vat = parseFloat($scope.newExpense.amount) * 20/100;
+    }
+
 	$scope.clearExpense = function() {
 		$scope.newExpense = {};
 	};

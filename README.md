@@ -142,4 +142,4 @@ Good question. Feel free to tell us how to make the test better. Or, you know, f
 ##### Notes:
 User is not defined anywhere, so all "users" will be able to add expanses and see all expanses.
 Rollback is not working.
-Not sure if I calculated VTA correctly, I did it as 20% from the total amount, but I think it should be 120%<amount without vta>= amount
+Not sure if I calculated VAT correctly, I did it as 20% from the total amount, but I think it should be 120%<amount without vat>= amount
