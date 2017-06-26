@@ -14,6 +14,14 @@ public class ExpensesConfiguration  extends Configuration {
     @JsonProperty("database")
     private DataSourceFactory database = new DataSourceFactory();
 
+    @Valid
+    @NotNull
+    private String exchangeRateApiUrl;
+
+    public String getExchangeRateApiUrl() {
+        return exchangeRateApiUrl;
+    }
+
     public DataSourceFactory getDataSourceFactory() {
         return database;
     }

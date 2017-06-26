@@ -2,6 +2,7 @@ package co.engage.resources;
 
 
 import co.engage.dao.ExpenseDAO;
+import co.engage.httpclient.CurrencyProvider;
 import co.engage.model.Expense;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,9 +29,11 @@ public class ExpenseResource {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final ExpenseDAO dao;
+    private final CurrencyProvider currencyProvider;
 
-    public ExpenseResource(ExpenseDAO dao) {
+    public ExpenseResource(ExpenseDAO dao, CurrencyProvider currencyProvider) {
         this.dao = dao;
+        this.currencyProvider = currencyProvider;
     }
 
     @POST
@@ -70,12 +73,22 @@ public class ExpenseResource {
         }
         final JsonNode expenseJson = OBJECT_MAPPER.readTree(request);
         expenseJson.get("date");
-        final double amount = Double.parseDouble(expenseJson.get("amount").asText());
+        final double amount = getAmount(expenseJson);
         final String reason = expenseJson.get("reason").asText();
         final String date1 = expenseJson.get("date").asText();
-        final java.util.Date parse = sdf1.parse(date1);
-        final Date date =  new Date(parse.getTime());
+        final java.util.Date date = sdf1.parse(date1);
+        System.out.println(date.toString());
         return new Expense(amount, reason, date);
+    }
+
+    private double getAmount(JsonNode expenseJson) {
+        final String amountText = expenseJson.get("amount").asText();
+        if (amountText.endsWith("EUR")) {
+            final String trimmedAmmont = amountText.trim();
+            final String realAmount = trimmedAmmont.substring(0,trimmedAmmont.length()-4);
+            return Double.parseDouble(realAmount)* currencyProvider.getExchange();
+        }
+        return Double.parseDouble(amountText);
     }
 
 }

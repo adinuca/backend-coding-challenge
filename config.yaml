@@ -26,6 +26,7 @@ database:
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
 
+exchangeRateApiUrl: http://api.fixer.io/latest?base=EUR&symbols=GBP
 
 server:
   type: simple

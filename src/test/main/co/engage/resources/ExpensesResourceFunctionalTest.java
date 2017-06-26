@@ -36,7 +36,7 @@ public class ExpensesResourceFunctionalTest {
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new ExpenseResource(dao))
+            .addResource(new ExpenseResource(dao, null))
             .build();
 
     @Test

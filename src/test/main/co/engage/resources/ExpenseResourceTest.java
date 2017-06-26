@@ -1,6 +1,7 @@
 package co.engage.resources;
 
 import co.engage.dao.ExpenseDAO;
+import co.engage.httpclient.CurrencyProvider;
 import co.engage.model.Expense;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,17 +25,20 @@ import static org.mockito.Mockito.when;
 public class ExpenseResourceTest {
 
     private static final String VALID_EXPENSE_JSON = "{\"date\":\"12/12/1988\",\"amount\":\"12.23\",\"reason\":\"aa\"}";
+    private static final String VALID_EXPENSE_JSON_WITH_EUROS = "{\"date\":\"12/12/1988\",\"amount\":\"12.23 EUR\",\"reason\":\"aa\"}";
     private static final String EXPENSE_WITH_INVALID_DATE_JSON = "{\"date\":\"12/1988\",\"amount\":\"12.23\",\"reason\":\"aa\"}";
     private static final String EXPENSE_WITH_INVALID_AMOUNT = "{\"date\":\"12/12/1988\",\"amount\":\"12d.23\",\"reason\":\"aa\"}";
     private static final String INVALID_EXPENSE_JSON = "{pksda";
     @Mock
     private ExpenseDAO expenseDAO;
+    @Mock
+    private CurrencyProvider currencyProvider;
 
     private ExpenseResource unit;
 
     @Before
     public void setUp() throws Exception {
-        unit = new ExpenseResource(expenseDAO);
+        unit = new ExpenseResource(expenseDAO, currencyProvider);
     }
 
     @Test
@@ -75,6 +79,14 @@ public class ExpenseResourceTest {
     @Test
     public void shouldReturnOKWhenSavingValidJson() throws Exception {
         final Response response = unit.saveExpense(VALID_EXPENSE_JSON);
+
+        assertThat(response.getStatus(), is(200));
+    }
+
+
+    @Test
+    public void shouldReturnOKWhenSavingValidJsonWithEuros() throws Exception {
+        final Response response = unit.saveExpense(VALID_EXPENSE_JSON_WITH_EUROS);
 
         assertThat(response.getStatus(), is(200));
     }

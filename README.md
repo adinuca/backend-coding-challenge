@@ -125,6 +125,8 @@ Good question. Feel free to tell us how to make the test better. Or, you know, f
 6. Create evolutions/migrations
 > Evolutions/Migrations are in /src/main/java/resources/db/migrations.xml
 7. Add post endpoint
+8. Configured endpoint to get currency in config.yaml : http://api.fixer.io/latest?base=EUR&symbols=GBP
+
  
 
 ##### Steps to build and run the application:
@@ -143,3 +145,5 @@ Good question. Feel free to tell us how to make the test better. Or, you know, f
 User is not defined anywhere, so all "users" will be able to add expanses and see all expanses.
 Rollback is not working.
 Not sure if I calculated VAT correctly, I did it as 20% from the total amount, but I think it should be 120%<amount without vat>= amount
+
+There is a  bug with conversion from the date the user sets to the date from databases.

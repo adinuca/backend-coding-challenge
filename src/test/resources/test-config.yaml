@@ -5,6 +5,8 @@ server:
     type: http
     port: 9876
 
+exchangeRateApiUrl: http://api.fixer.io/latest?base=EUR&symbols=GBP
+
 database:
   driverClass: org.h2.Driver
   user: sa
