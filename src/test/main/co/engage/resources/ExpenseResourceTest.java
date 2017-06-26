@@ -10,7 +10,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -83,5 +86,26 @@ public class ExpenseResourceTest {
         final Response response = unit.saveExpense(VALID_EXPENSE_JSON);
 
         assertThat(response.getStatus(), is(500));
+    }
+
+    @Test
+    public void shouldReturnServerErrorWhenGettingExpenseshrowsException() throws Exception {
+        when(expenseDAO.getExpenses()).thenThrow(SQLException.class);
+
+        final Response response = unit.getAllExpenses();
+
+        assertThat(response.getStatus(), is(500));
+    }
+
+    @Test
+    public void shouldReturnAllExpensesFromDB() throws Exception {
+        final Expense expense = new Expense(12.33d,"reason", new Date(System.currentTimeMillis()));
+        final List<Expense> expenses = Collections.singletonList(expense);
+        when(expenseDAO.getExpenses()).thenReturn(expenses);
+
+        final Response response = unit.getAllExpenses();
+
+        assertThat(response.getStatus(), is(200));
+        assertThat(response.getEntity(), is(expenses));
     }
 }

@@ -12,11 +12,8 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 public class Main  extends Application<ExpensesConfiguration> {
-    private final HibernateBundle<ExpensesConfiguration> hibernate = new HibernateBundle<ExpensesConfiguration>(Expense.class) {
-        public DataSourceFactory getDataSourceFactory(ExpensesConfiguration configuration) {
-            return configuration.getDataSourceFactory();
-        }
-    };
+
+    private HibernateBundle<ExpensesConfiguration> hibernate;
 
     public static void main(String[] args) throws Exception {
         new Main().run(args);
@@ -29,14 +26,20 @@ public class Main  extends Application<ExpensesConfiguration> {
 
     @Override
     public void initialize(Bootstrap<ExpensesConfiguration> bootstrap) {
-        bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
-        bootstrap.addBundle(hibernate);
+        hibernate = new HibernateBundle<ExpensesConfiguration>(Expense.class) {
+            public DataSourceFactory getDataSourceFactory(ExpensesConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+        };
 
         final MigrationsBundle<ExpensesConfiguration> migrationsBundle = new MigrationsBundle<ExpensesConfiguration>() {
             public DataSourceFactory getDataSourceFactory(ExpensesConfiguration configuration) {
                 return configuration.getDataSourceFactory();
             }
         };
+
+        bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
+        bootstrap.addBundle(hibernate);
         bootstrap.addBundle(migrationsBundle);
     }
     @Override

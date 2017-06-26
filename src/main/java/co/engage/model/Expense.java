@@ -45,4 +45,30 @@ public class Expense {
     private void setId(long id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Expense expense = (Expense) o;
+
+        if (id != expense.id) return false;
+        if (Double.compare(expense.amount, amount) != 0) return false;
+        if (reason != null ? !reason.equals(expense.reason) : expense.reason != null) return false;
+        return date != null ? date.toString().equals(expense.getDate()
+                .toString()) : expense.date == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (int) (id ^ (id >>> 32));
+        temp = Double.doubleToLongBits(amount);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (reason != null ? reason.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        return result;
+    }
 }

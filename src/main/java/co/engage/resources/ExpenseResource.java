@@ -6,10 +6,10 @@ import co.engage.model.Expense;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dropwizard.hibernate.UnitOfWork;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -24,8 +24,10 @@ import static javax.ws.rs.core.Response.status;
 @Path("expenses")
 public class ExpenseResource {
     private static final SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private ExpenseDAO dao;
+    private static final Logger logger = LoggerFactory.getLogger(ExpenseResource.class);
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    private final ExpenseDAO dao;
 
     public ExpenseResource(ExpenseDAO dao) {
         this.dao = dao;
@@ -40,9 +42,22 @@ public class ExpenseResource {
             dao.create(expense);
             return ok().build();
         }catch(IllegalArgumentException|IOException|ParseException e){
-            e.printStackTrace();
+            logger.warn("Json for expense creation is invalid {}", request, e);
             return status(Response.Status.BAD_REQUEST).build();
 
+        }catch (Exception e){
+            logger.error("Exception occured while saving expense {}", request, e);
+            e.printStackTrace();
+            return serverError().build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @UnitOfWork(readOnly=true)
+    public Response getAllExpenses() {
+        try{
+            return ok(dao.getExpenses()).build();
         }catch (Exception e){
             e.printStackTrace();
             return serverError().build();
