@@ -122,8 +122,8 @@ Good question. Feel free to tell us how to make the test better. Or, you know, f
 3. Added maven-resources-plugin to copy the front end artifacts to the assets folder inside the target/classes folder.
 4. Create fat jar(jar containing all dependencies) using the maven-shade-plugin
 5. Create database and user that will be used by the application.
-6. Create evolutions/migrations
-> Evolutions/Migrations are in /src/main/java/resources/db/migrations.xml
+6. Migrations
+> Migrations are in /src/main/java/resources/db/migrations.xml
 7. Add post endpoint
 8. Configured endpoint to get currency in config.yaml : http://api.fixer.io/latest?base=EUR&symbols=GBP
 
