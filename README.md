@@ -116,8 +116,14 @@ Feel free to comment your code, or put explanations in a pull request within the
 Good question. Feel free to tell us how to make the test better. Or, you know, fork it and improve it!
 
 
-##### Implementation:
-1. Create dropwizard application that serves the front end resources using an AssetBundle and the the api resources.
+# Implementation
+### Requirements:
+1. Maven
+2. Java 8
+3. MySql
+
+### Steps
+1. Created dropwizard application that serves the front end resources using an AssetBundle and the the api resources.
 2. Added maven plugin called frontend-maven-plugin to run node and gulp tasks.
 3. Added maven-resources-plugin to copy the front end artifacts to the assets folder inside the target/classes folder.
 4. Create fat jar(jar containing all dependencies) using the maven-shade-plugin
@@ -125,11 +131,11 @@ Good question. Feel free to tell us how to make the test better. Or, you know, f
 6. Migrations
 > Migrations are in /src/main/java/resources/db/migrations.xml
 7. Add post endpoint
-8. Configured endpoint to get currency in config.yaml : http://api.fixer.io/latest?base=EUR&symbols=GBP
-
+8. Configured external endpoint to get curency rate using a jersey client,  in config.yaml : http://api.fixer.io/latest?base=EUR&symbols=GBP
+9. Changed expenses-content partial to compute VTA when amount is changed.
  
 
-##### Steps to build and run the application:
+### Steps to build and run the application:
 1. Create database and associated user.
 > 1. login with root user to mySql
 > 2. run /src/main/resources/db/createDatabase.sql 
@@ -141,7 +147,7 @@ Good question. Feel free to tell us how to make the test better. Or, you know, f
 4. Run application using config.yaml
 > java -jar target/co.engage-1.0=SNAPSHOT.jar server config.yaml
 
-##### Notes:
+### Notes:
 User is not defined anywhere, so all "users" will be able to add expanses and see all expanses.
 Rollback is not working.
 Not sure if I calculated VAT correctly, I did it as 20% from the total amount, but I think it should be 120%<amount without vat>= amount
