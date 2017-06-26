@@ -17,6 +17,7 @@ public class Expense {
     @Column
     private Date date;
 
+
     private Expense() {
     }
 
@@ -32,6 +33,10 @@ public class Expense {
 
     public String getReason() {
         return reason;
+    }
+
+    public double getVat() {
+        return amount *20/100;
     }
 
     public Date getDate() {
