@@ -147,3 +147,5 @@ Rollback is not working.
 Not sure if I calculated VAT correctly, I did it as 20% from the total amount, but I think it should be 120%<amount without vat>= amount
 
 There is a  bug with conversion from the date the user sets to the date from databases.
+No healthchecks added, there should be at least one for MySql and one for the curency provider
+VAT is calculated for the sum in EUROS on the front end, the conversion only happens on the backend
