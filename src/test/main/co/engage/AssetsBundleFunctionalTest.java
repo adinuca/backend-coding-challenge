@@ -3,7 +3,6 @@ package co.engage;
 
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.Rule;
 import org.junit.Test;

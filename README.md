@@ -38,12 +38,16 @@ Imagine that you come back from 2 weeks of holidays on a Monday. On the team scr
 > 1. login with root user to mySql
 > 2. run /src/main/resources/db/createDatabase.sql 
 > 3. run /src/main/resources/db/createUser.sql 
-2. mvn clean install
-3. java -jar target/co.engage-1.0=SNAPSHOT.jar server config.yaml
+2. Build the fat jar
+> mvn clean install
+3. Run migrations
+> java -jar target/co.engage-1.0-SNAPSHOT.jar db migrate config.yaml 
+4. Run application using config.yaml
+> java -jar target/co.engage-1.0=SNAPSHOT.jar server config.yaml
 
 ##### Notes:
 User is not defined anywhere, so all "users" will be able to add expanses and see all expanses.
-
+Rollback is not working.
 
 
 **User story 2:**
